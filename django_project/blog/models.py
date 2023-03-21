@@ -1,5 +1,5 @@
 from django.db import models
-
+# ORM class
 class Post(models.Model):
     title = models.CharField(max_length=30)
     content = models.TextField()
@@ -9,5 +9,6 @@ class Post(models.Model):
 
     def __str__(self):
         return f'[{self.pk}] {self.title}'
+    # pk는 고정
 
 
