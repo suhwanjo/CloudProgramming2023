@@ -5,4 +5,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', views.index),
+    path('<int:post_num>/',views.single_post_page),
 ]

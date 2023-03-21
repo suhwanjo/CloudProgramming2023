@@ -6,3 +6,8 @@ def index(request):
     # '-'는 내림차순
     return render(request,'blog/index.html',{'posts': posts})
 # posts로 넘겨주는 것 까지가 백엔드의 의무
+
+def single_post_page(request,post_num):
+    post=Post.objects.get(pk=post_num)
+    return render(request,'blog/single_post_page.html',{'post':post})
+# 먼저 url 패턴에 잘 걸리는지 확인하고 함수 작성
