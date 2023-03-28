@@ -4,6 +4,6 @@ from . import views
 from django.urls import path, include
 
 urlpatterns = [
-    path('', views.index),
-    path('<int:post_num>/',views.single_post_page),
+    path('', views.PostList.as_view()),
+    path('<int:pk>/',views.PostDetail.as_view()),
 ]
