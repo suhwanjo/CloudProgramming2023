@@ -41,7 +41,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     # 기본값 = pk
-    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    author = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
     tags = models.ManyToManyField(Tag, blank=True)
 
