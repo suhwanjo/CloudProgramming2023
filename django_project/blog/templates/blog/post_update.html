@@ -1,10 +1,10 @@
 {% extends 'blog/base.html' %}
-
+{% load crispy_forms_tags %}
 {% block main_area %}
     <h1>글 수정하기</h1>
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
     <table>
-        {{ form }}
+        {{ form | crispy }}
     </table>
     <button type="submit">수정하기</button>
     <form>

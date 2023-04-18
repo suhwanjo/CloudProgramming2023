@@ -9,5 +9,12 @@
     <a href="/blog">Blog</a>
 </nav>
 <h1>클라우드프로그래밍 꿀잼</h1>
+{% for post in recent_posts %}
+    <div>
+        <h4><a href="{{ post.get_absolute_url }}">
+        {{ post.title }} by {{ post.author }}</a></h4>
+        <p>{{ post.content | truncatewords:30 | safe }}</p>
+    </div>
+{% endfor %}
 </body>
 </html>
