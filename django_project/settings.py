@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'crispy_bootstrap4',
+    'markdownx',
     'blog',
     'single_pages',
 ]
@@ -123,7 +126,7 @@ STATIC_URL = '/static/'
 # 장고 운용 = static, 사용자 업로드 = 다른 url
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # 윈도우는 경로 |, 리눅스는 /라 os.path.join 사용
 # Default primary key field type
