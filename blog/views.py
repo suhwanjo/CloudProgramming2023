@@ -23,11 +23,11 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
     fields = ['title', 'content', 'head_image', 'file_upload', 'category', 'tags']
 
-    def test_func(self):
-        return self.request.user.is_superuser or self.request.user.is_staff
+#    def test_func(self):
+#        return self.request.user.is_superuser or self.request.user.is_staff
 
     def form_valid(self, form):
-        if self.request.user.is_authenticated and (self.request.user.is_superuser or self.request.user.is_staff):
+        if self.request.user.is_authenticated:
             form.instance.author = self.request.user
             return super(PostCreate, self).form_valid(form)
         else:
