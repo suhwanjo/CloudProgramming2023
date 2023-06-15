@@ -135,4 +135,4 @@ migrations/
 
 _media/
 
-blog/templates/baggle.py
+blog/baggle.py

@@ -5,6 +5,10 @@
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
     <table>
         {{ form | crispy }}
+        <tr/>
+        <th><label for="id_tags_str">Tags:</label></th>
+        <th><input type="text" name="tags_str" id="id_tags_str"><td/></th>
+        <tr/>
     </table>
     <button type="submit">글쓰기</button>
     <form>

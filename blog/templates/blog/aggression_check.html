@@ -98,7 +98,7 @@
         <div class="mim-icon">
             <img src="/static/images/pgpg.png" alt="Mim Icon">
             <span class="comment-content">공격성 확인기</span>
-            <p class="comment-content">{{ analyze_comment }}</p>
+            <p class="comment-content" style="font-size: 18px">{{ analyze_comment }}</p>
         </div>
     </div>
 
@@ -113,7 +113,7 @@
               <div class="media-body">
                   {% if user.is_authenticated and comment.author == user %}
                       <div class="float-right">
-                      <a role="button" class="btn btn-sm btn-info" id="comment-{{ comment.pk }}-update-btn" href="/blog/update_comment/{{ comment.pk }}"/>수정
+                       <a role="button" class="btn btn-sm btn-info" id="comment-{{ comment.pk }}-update-btn" href="/blog/update_comment/{{ comment.pk }}"/>수정
                       <a/>
                       <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">삭제
                           <a/>

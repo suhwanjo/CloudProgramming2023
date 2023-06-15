@@ -1,5 +1,5 @@
 body{
-    background: url('/static/single_pages/images/game.jpg') no-repeat center center fixed;
+    background: url('/static/single_pages/images/pacman3d2.jpg') no-repeat center center fixed;
     /*background: url('/static/single_pages/images/wallpapaerbetter.jpg') no-repeat center center fixed;*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -30,7 +30,7 @@ button {
     text-decoration: none;
     font-weight: 600;
     transition: 0.25s;
-    top: 450px;
+    top: 460px;
 }
 .w-btn-outline:hover {
     letter-spacing: 2px;
@@ -43,11 +43,11 @@ button {
 
 
 .w-btn-blue-outline {
-    border: 3px solid #6aafe6;
+    border: 3px solid #FFA500;
     color: #d4dfe6;
 }
 .w-btn-blue-outline:hover {
-    background-color: #6aafe6;
+    background-color: #FFA500;
     color: #d4dfe6;
 }
 
@@ -154,7 +154,7 @@ button {
 
 
 .btn {
-  background-color: var(--line-fill);
+  background-color: #FFA500;
   color: #fff;
   border: 0;
   border-radius: 6px;
