@@ -103,21 +103,21 @@
                 <ul class="pagination justify-content-center mb-4">
                     {% if page_obj.has_next %}
                         <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">&larr; Older</a>
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}">&larr; 이전</a>
                         </li>
                     {% else %}
                         <li class="page-item disabled">
-                            <a class="page-link" href="#">&larr; Older</a>
+                            <a class="page-link" href="#">&larr; 이전</a>
                         </li>
                     {% endif %}
 
                     {% if page_obj.has_previous %}
                         <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Newer &rarr;</a>
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}">다음 &rarr;</a>
                         </li>
                     {% else %}
                         <li class="page-item disabled">
-                            <a class="page-link" href="#">Newer &rarr;</a>
+                            <a class="page-link" href="#">다음 &rarr;</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -164,11 +164,11 @@
                                 <ul class="list-unstyled mb-0">
                                     {% for category in categories %}
                                         <li>
-                                            <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                                            <a href="{{ category.get_absolute_url }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}">{{ category.name }}</a>
                                         </li>
                                     {% endfor %}
                                     <li>
-                                        <a href="/blog/category/no-category">미분류({{ no_category_post_count }})</a>
+                                        <a href="/blog/category/no-category?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}">미분류({{ no_category_post_count }})</a>
                                     </li>
                                 </ul>
                             </div>

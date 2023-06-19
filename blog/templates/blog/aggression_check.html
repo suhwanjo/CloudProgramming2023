@@ -93,8 +93,9 @@
           </div>
         </div>
     </div>
+
     <div class = "border_red">
-        <!-- Add the mim-icon block -->
+        <!-- Add the aggression-icon block -->
         <div class="mim-icon">
             <img src="/static/images/pgpg.png" alt="Mim Icon">
             <span class="comment-content">공격성 확인기</span>
@@ -102,35 +103,25 @@
         </div>
     </div>
 
-
-          {% if post.comment_set.exists %}
+       {% if post.comment_set.exists %}
        <!-- 순화버튼 -->
           {% for comment in post.comment_set.iterator %}
         <!-- Single Comment -->
-            </br>
             <div class="media mb-4" id="comment-{{ comment.pk }}">
               <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
               <div class="media-body">
+                  <div class="float-right">
+
                   {% if user.is_authenticated and comment.author == user %}
-                      <div class="float-right">
-                       <a role="button" class="btn btn-sm btn-info" id="comment-{{ comment.pk }}-update-btn" href="/blog/update_comment/{{ comment.pk }}"/>수정
-                      <a/>
-                      <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">삭제
-                          <a/>
-                          <!-- Add refresh button -->
-                        <a role="button" href="#" id="comment-{{ comment.pk }}-mim-modal-btn" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#mimmodal-{{ comment.pk }}" >해석</a>
+                        <a role="button" class="btn btn-sm btn-info" id="comment-{{ comment.pk }}-update-btn" href="/blog/update_comment/{{ comment.pk }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}">수정</a>
+                        <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">삭제</a>
+                        <a role="button" href="#" id="comment-{{ comment.pk }}-mim-modal-btn" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#mimmodal-{{ comment.pk }}">해석</a>
+                  {% endif %}
+                    {% if not user.is_authenticated or comment.author != user %}
+                        <a role="button" href="#" id="comment-{{ comment.pk }}-mim-modal-btn" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#mimmodal-{{ comment.pk }}">해석</a>
+                    {% endif %}
                       </div>
-                        <!-- Hidden div for the selection window -->
-                        <div id="purification-window" style="display: none;">
-                            <h4>Select Purification Step:</h4>
-                            <select id="purification-step">
-                                 <option value="step1">Step 1</option>
-                                 <option value="step2">Step 2</option>
-                                 <option value="step3">Step 3</option>
-                        <!-- Add more purification steps as needed -->
-                        </select>
-                        <button id="purification-confirm" class="btn btn-primary">Confirm</button>
-                        </div>
+
                       <!-- Modal -->
                         <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -149,7 +140,6 @@
                                 </div>
                             </div>
                         </div>
-                  {% endif %}
                     <!-- Modal -->
                         <div class="modal fade" id="mimmodal-{{ comment.pk }}" tabindex="-1" aria-labelledby="mimmodalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -169,8 +159,7 @@
                             </div>
                         </div>
                 <h5 class="mt-0">{{ comment.author }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
-                <p class="comment-content">{{ comment.content }}</p>
-                  <p>{{ mim }}</p>
+                <p class="comment-content" style="font-size: 18px">{{ comment.content }}</p>
 
               {% if comment.created_at != comment.updated_at %}
                   <p class="text-muted float-right"><small>Updated: {{ comment.updated_at }}</small></p>

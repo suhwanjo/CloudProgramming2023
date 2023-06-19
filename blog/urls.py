@@ -11,6 +11,7 @@ urlpatterns = [
     path('<int:pk>/add_comment', views.add_comment),
     path('<int:pk>/add_aggression', views.add_aggression),
     path('tag/<str:slug>/', views.tag_page),
+    path('category/<str:slug>/', views.categories_page),
     path('search/<str:q>/', views.PostSearch.as_view()),
     path('update_comment/<int:pk>/', views.CommentUpdate.as_view()),
     path('delete_comment/<int:pk>/', views.delete_comment),

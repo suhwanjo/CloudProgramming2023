@@ -83,53 +83,42 @@
           <h5 class="card-header">댓글 작성</h5>
           <div class="card-body">
               {% if user.is_authenticated %}
-            <form id="comment-from" method="POST" action="{{ post.get_absolute_url }}add_comment"> {% csrf_token %}
+            <form id="comment-from" method="POST" action="{{ post.get_absolute_url }}add_comment?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}"> {% csrf_token %}
               <div class="form-group">
                   {{ comment | crispy }}
-                <textarea class="form-control" rows="3"></textarea>
               </div>
               <button type="submit" class="btn btn-primary">작성</button>
+            </form>
+                  <form id="comment-from" method="POST" action="{{ post.get_absolute_url }}add_aggression?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}"> {% csrf_token %}
+              <div class="form-group">
+                  {{ comment | crispy }}
+              </div>
+              <button type="submit" class="btn btn-primary">공격성 확인</button>
             </form>
               {% else %}
               <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">Log in and leave a comment</a>
               {% endif %}
           </div>
         </div>
+
       {% if post.comment_set.exists %}
-       <!-- 순화버튼 -->
-{#        <a role="button" class="btn btn-sm btn-primary" id="comment-{{ post.pk }}-step22-btn" href="/blog/{{post.pk }}/step22"/>2단계순화#}
-{#        </a>#}
-{#        <a role="button" class="btn btn-sm btn-primary" id="comment-{{ post.pk }}-step33-btn" href="/blog/{{post.pk }}/step33"/>3단계순화#}
-{#        </a>#}
-{#        <a role="button" class="btn btn-sm btn-primary" id="comment-{{ post.pk }}-step44-btn" href="/blog/{{post.pk }}/step44"/>4단계순화#}
-{#        </a>#}
           {% for comment in post.comment_set.iterator %}
         <!-- Single Comment -->
             <div class="media mb-4" id="comment-{{ comment.pk }}">
               <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
               <div class="media-body">
+                  <div class="float-right">
+
                   {% if user.is_authenticated and comment.author == user %}
-                      <div class="float-right">
-
-                      <a role="button" class="btn btn-sm btn-info" id="comment-{{ comment.pk }}-update-btn" href="/blog/update_comment/{{ comment.pk }}"/>수정
-                      <a/>
-                      <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">삭제
-                          <a/>
-
-                          <!-- Add refresh button -->
-                          <a role="button" href="#" id="comment-{{ comment.pk }}-mim-modal-btn" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#mimmodal-{{ comment.pk }}">해석</a>
+                        <a role="button" class="btn btn-sm btn-info" id="comment-{{ comment.pk }}-update-btn" href="/blog/update_comment/{{ comment.pk }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}">수정</a>
+                        <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">삭제</a>
+                        <a role="button" href="#" id="comment-{{ comment.pk }}-mim-modal-btn" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#mimmodal-{{ comment.pk }}">해석</a>
+                  {% endif %}
+                    {% if not user.is_authenticated or comment.author != user %}
+                        <a role="button" href="#" id="comment-{{ comment.pk }}-mim-modal-btn" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#mimmodal-{{ comment.pk }}">해석</a>
+                    {% endif %}
                       </div>
-                        <!-- Hidden div for the selection window -->
-                        <div id="purification-window" style="display: none;">
-                            <h4>Select Purification Step:</h4>
-                            <select id="purification-step">
-                                 <option value="step1">Step 1</option>
-                                 <option value="step2">Step 2</option>
-                                 <option value="step3">Step 3</option>
-                        <!-- Add more purification steps as needed -->
-                        </select>
-                        <button id="purification-confirm" class="btn btn-primary">Confirm</button>
-                        </div>
+
                       <!-- Modal -->
                         <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -148,7 +137,6 @@
                                 </div>
                             </div>
                         </div>
-                  {% endif %}
 
                     <!-- Modal -->
                         <div class="modal fade" id="mimmodal-{{ comment.pk }}" tabindex="-1" aria-labelledby="mimmodalLabel" aria-hidden="true">
@@ -169,9 +157,8 @@
                             </div>
                         </div>
                 <h5 class="mt-0">{{ comment.author }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
-
                     {% if comment.pk == mimcomment.pk %}
-                        <p class="comment-content">{{ comment.content }}</p>
+                        <p class="comment-content" style="font-size: 18px">{{ comment.content }}</p>
                         <div class = "border_green">
                         <!-- Add the mim-icon block -->
                         <div class="mim-icon">
@@ -183,11 +170,6 @@
                     {% else %}
                         <p class="comment-content">{{ comment.content }}</p>
                     {% endif %}
-
-
-
-
-
 
               {% if comment.created_at != comment.updated_at %}
                   <p class="text-muted float-right"><small>Updated: {{ comment.updated_at }}</small></p>

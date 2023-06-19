@@ -11,49 +11,50 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/blog/?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about_me/">BLOG</a>
-                    </li>
+
 
                 </ul>
                 <ul class="navbar-nav ml-auto" style="display: flex; flex-direction: row;">
-    <li class="nav-item dropdown " style="margin-left: 150px;">
-    <a class="nav-link dropdown-toggle" href="#" id="cleanmeDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 16px">
-        나의 게시물 댓글 순화(
-        {% if request.GET.now_step == '적용안함' %}
-            적용안함
-        {% else %}
-            <span class="selected-step">{{ request.GET.now_step }}</span>
-        {% endif %}
-        )
-    </a>
-    <div class="dropdown-menu" aria-labelledby="cleanmeDropdownMenuLink">
-        <a class="dropdown-item " href="/blog/original_me/">적용안함</a>
-        <a class="dropdown-item" href="/blog/step22_me/">1단계</a>
-        <a class="dropdown-item" href="/blog/step33_me/">2단계</a>
-        <a class="dropdown-item" href="/blog/step44_me/">3단계</a>
-    </div>
-</li>
 
-<li class="nav-item dropdown" style="margin-left: 20px;">
-    <a class="nav-link dropdown-toggle" href="#" id="cleanotherDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 16px">
-        남의 게시물 댓글 순화(
-        {% if request.GET.now_step2 == '적용안함' %}
-            적용안함
-        {% else %}
-            <span class="selected-step">{{ request.GET.now_step2 }}</span>
-        {% endif %}
-        )
-    </a>
-    <div class="dropdown-menu" aria-labelledby="cleanotherDropdownMenuLink">
-        <a class="dropdown-item" href="/blog/original_other/">적용안함</a>
-        <a class="dropdown-item" href="/blog/step22_other/">1단계</a>
-        <a class="dropdown-item" href="/blog/step33_other/">2단계</a>
-        <a class="dropdown-item" href="/blog/step44_other/">3단계</a>
-    </div>
-</li>
-</ul>
-</ul>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown " style="margin-left: 150px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="cleanmeDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 16px">
+                        나의 게시물 댓글 순화(
+                        {% if request.GET.now_step == '적용안함' %}
+                            적용안함
+                        {% else %}
+                            <span class="selected-step">{{ request.GET.now_step }}</span>
+                        {% endif %}
+                        )
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="cleanmeDropdownMenuLink">
+                        <a class="dropdown-item " href="/blog/original_me/">적용안함</a>
+                        <a class="dropdown-item" href="/blog/step22_me/">1단계</a>
+                        <a class="dropdown-item" href="/blog/step33_me/">2단계</a>
+                        <a class="dropdown-item" href="/blog/step44_me/">3단계</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown" style="margin-left: 20px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="cleanotherDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 16px">
+                        남의 게시물 댓글 순화(
+                        {% if request.GET.now_step2 == '적용안함' %}
+                            적용안함
+                        {% else %}
+                            <span class="selected-step">{{ request.GET.now_step2 }}</span>
+                        {% endif %}
+                        )
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="cleanotherDropdownMenuLink">
+                        <a class="dropdown-item" href="/blog/original_other/">적용안함</a>
+                        <a class="dropdown-item" href="/blog/step22_other/">1단계</a>
+                        <a class="dropdown-item" href="/blog/step33_other/">2단계</a>
+                        <a class="dropdown-item" href="/blog/step44_other/">3단계</a>
+                    </div>
+                </li>
+                </ul>
+                </ul>
+                {% endif %}
                 <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
@@ -61,12 +62,12 @@
                             {{ user.username }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="/accounts/logout/">Log Out</a>
+                            <a class="dropdown-item" href="/accounts/logout/">로그아웃</a>
                         </div>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Log In</a>
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">로그인</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -80,7 +81,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel"> <i class="fas fa-sign-in-alt"></i>&nbsp Log In</h5>
+                    <h5 class="modal-title" id="loginModalLabel"> <i class="fas fa-sign-in-alt"></i>&nbsp 로그인</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -97,7 +98,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>

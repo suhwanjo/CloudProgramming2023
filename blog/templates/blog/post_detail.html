@@ -25,7 +25,7 @@
         <hr>
 
         {% if user.is_authenticated and user == post.author %}
-            <a class="btn btn-info btn-sm float-right" href="/blog/post_update/{{ post.pk }}" role="button"><i class="fas fa-pen"></i>  글 수정하기</a>
+            <a class="btn btn-info btn-sm float-right" href="/blog/post_update/{{ post.pk }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}" role="button"><i class="fas fa-pen"></i>  글 수정하기</a>
         {% endif %}
 
         <!-- Date/Time -->
@@ -49,7 +49,7 @@
         {% if post.tags.exists %}
             <i class="fas fa-tags"></i>
             {% for tag in post.tags.all %}
-                <a href="{{ tag.get_absolute_url }}" class="badge badge-light">{{ tag }}</a>
+                <a href="{{ tag.get_absolute_url }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}" class="badge badge-light">{{ tag }}</a>
             {% endfor %}
             <br/>
             <br/>
@@ -57,7 +57,7 @@
 
 
         {% if post.file_upload %}
-            <a href="{{ post.file_upload.url }}" class="btn btn-outline-dark" role="button" download>
+            <a href="{{ post.file_upload.url }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}" class="btn btn-outline-dark" role="button" download>
                 Download:
 
                 {% if post.get_file_ext == 'csv' %}
@@ -96,40 +96,29 @@
               <button type="submit" class="btn btn-primary">공격성 확인</button>
             </form>
               {% else %}
-              <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">Log in and leave a comment</a>
+              <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">로그인하고 댓글 남기기</a>
               {% endif %}
           </div>
         </div>
+
       {% if post.comment_set.exists %}
-       <!-- 순화버튼 -->
           {% for comment in post.comment_set.iterator %}
         <!-- Single Comment -->
             <div class="media mb-4" id="comment-{{ comment.pk }}">
               <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
               <div class="media-body">
+                  <div class="float-right">
+
                   {% if user.is_authenticated and comment.author == user %}
-                      <div class="float-right">
-
-                      <a role="button" class="btn btn-sm btn-info" id="comment-{{ comment.pk }}-update-btn" href="/blog/update_comment/{{ comment.pk }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}"/>수정
-                      <a/>
-                      <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}">삭제
-                          <a/>
-
-                          <!-- Add refresh button -->
-                        <a role="button" href="#" id="comment-{{ comment.pk }}-mim-modal-btn" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#mimmodal-{{ comment.pk }}" >해석</a>
+                        <a role="button" class="btn btn-sm btn-info" id="comment-{{ comment.pk }}-update-btn" href="/blog/update_comment/{{ comment.pk }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}">수정</a>
+                        <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">삭제</a>
+                        <a role="button" href="#" id="comment-{{ comment.pk }}-mim-modal-btn" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#mimmodal-{{ comment.pk }}">해석</a>
+                  {% endif %}
+                    {% if not user.is_authenticated or comment.author != user %}
+                        <a role="button" href="#" id="comment-{{ comment.pk }}-mim-modal-btn" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#mimmodal-{{ comment.pk }}">해석</a>
+                    {% endif %}
                       </div>
-                        <!-- Hidden div for the selection window -->
-                        <div id="purification-window" style="display: none;">
-                            <h4>Select Purification Step:</h4>
-                            <select id="purification-step">
-                                 <option value="step1">Step 1</option>
-                                 <option value="step2">Step 2</option>
-                                 <option value="step3">Step 3</option>석
-                        <!-- Add more purification steps as needed -->
-                        </select>
-                        <button id="purification-confirm" class="btn btn-primary">Confirm</button>
-                        </div>
-                      <!-- Modal -->
+                      <!-- Delete Modal -->
                         <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -138,16 +127,17 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        <del>{{ comment | linebreaks }}</del>
+                                        <p class="comment-content">{{ comment.content }}</p>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <a role="button" class="btn btn-danger" href="/blog/delete_comment/{{ comment.pk }}/">Delete</a>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                                        <a role="button" class="btn btn-danger" href="/blog/delete_comment/{{ comment.pk }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}/">확인</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    <!-- Modal -->
+
+                    <!-- Mim Modal -->
                         <div class="modal fade" id="mimmodal-{{ comment.pk }}" tabindex="-1" aria-labelledby="mimmodalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -160,15 +150,13 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                                        <a role="button" class="btn btn-dark" href="/blog/mim/{{ comment.pk }}/">보기</a>
+                                        <a role="button" class="btn btn-dark" href="/blog/mim/{{ comment.pk }}?now_step={{ request.GET.now_step }}&now_step2={{ request.GET.now_step2 }}">보기</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                  {% endif %}
                 <h5 class="mt-0">{{ comment.author }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
                 <p class="comment-content" style="font-size: 18px">{{ comment.content }}</p>
-                  <p>{{ mim }}</p>
 
               {% if comment.created_at != comment.updated_at %}
                   <p class="text-muted float-right"><small>Updated: {{ comment.updated_at }}</small></p>
